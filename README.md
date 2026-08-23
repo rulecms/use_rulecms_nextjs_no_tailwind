@@ -8,6 +8,12 @@ This is a **gallery**. The sidebar opens each widget on its own routes. Start wi
 
 The general Next.js integration demo (host Tailwind, CSR/SSR/SSG/ISR cookbook) is a separate repo: [use_rulecms_nextjs](https://github.com/rulecms/use_rulecms_nextjs).
 
+## Live demo
+
+**[View the live demo](https://use-rulecms-nextjs-no-tailwind.vercel.app/)**
+
+Widget pages show a configuration message until RuleCMS env vars are set on the host.
+
 ## Quick start
 
 ```bash
@@ -25,7 +31,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000). Use the **left sidebar** to move between the homepage and each widget.
 
-To deploy a hosted instance, follow [VERCEL.md](./VERCEL.md).
+Or skip local setup and use the [live demo](https://use-rulecms-nextjs-no-tailwind.vercel.app/). To deploy your own instance, follow [VERCEL.md](./VERCEL.md).
 
 ## Environment variables
 
