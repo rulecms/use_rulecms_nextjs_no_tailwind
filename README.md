@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RuleCMS widget gallery — Next.js, no Tailwind
 
-## Getting Started
+A Next.js host that embeds RuleCMS widgets **without any Tailwind configuration on this project**. There is no `tailwindcss` package, no Tailwind PostCSS plugin, and no `tailwind.config`. The left sidebar and homepage use plain CSS.
 
-First, run the development server:
+Widgets are composed in RuleCMS, including layout, CSS variables, and Tailwind-based class names. When a widget runs here, those classes are already resolved into CSS that `@rulecms/widget-react` injects. This app only renders the widgets.
+
+This is a **gallery**. The sidebar opens each widget on its own routes. Start with Widget 1; add more with the [add-widget runbook](__docs__/RUNBOOK_add-gallery-widget.md).
+
+The general Next.js integration demo (host Tailwind, CSR/SSR/SSG/ISR cookbook) is a separate repo: [use_rulecms_nextjs](https://github.com/rulecms/use_rulecms_nextjs).
+
+## Quick start
+
+```bash
+git clone https://github.com/rulecms/use_rulecms_nextjs_no_tailwind.git
+cd use_rulecms_nextjs_no_tailwind
+npm install
+cp .env.example .env.local
+```
+
+Fill in `.env.local` (see below), then:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Use the **left sidebar** to move between the homepage and each widget.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To deploy a hosted instance, follow [VERCEL.md](./VERCEL.md).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment variables
 
-## Learn More
+This repository does **not** commit tokens or published keys. Copy `.env.example` to `.env.local`.
 
-To learn more about Next.js, take a look at the following resources:
+| Name | Used by |
+| --- | --- |
+| `NEXT_PUBLIC_RULECMS_TOKEN` | Client-side pages (`/widgets/widget-1`) |
+| `RULECMS_TOKEN` | Server pre-fetched pages (`/widgets/widget-1/ssr`) — never expose this to the browser |
+| `NEXT_PUBLIC_RULECMS_ENDPOINT` / `RULECMS_ENDPOINT` | Optional; default `https://rulecms.com` |
+| `NEXT_PUBLIC_RULECMS_WIDGET_1_PUBLISHED_KEY` | Widget 1 published key |
+| `RULECMS_WIDGET_1_PUBLISHED_KEY` | Optional server override; falls back to the public key |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Get an **app token** from RuleCMS project settings and a **published key** by publishing a widget in the composer (`{environmentId}---widget-…`).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Routes
 
-## Deploy on Vercel
+| Route | What it shows |
+| --- | --- |
+| `/` | Purpose of this gallery; how to use the sidebar |
+| `/widgets/widget-1` | Widget 1, client-side `RuleCMSWidget` |
+| `/widgets/widget-1/ssr` | Widget 1, `fetchRuleCMSWidget` on the server then `mode="pre-fetched"` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## How embedding works
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Wrap the tree with `RuleCMSWidgetProvider` (`src/app/providers.tsx`) and register `@rulecms/source-components-react` as the default library.
+2. Client-side: `<RuleCMSWidget publishedKey={…} />`.
+3. Server pre-fetched: `fetchRuleCMSWidget` from `@rulecms/widget-react/server`, then `<RuleCMSWidget mode="pre-fetched" initialData={…} />`.
+
+Gallery entries live in `src/lib/gallery-widgets.ts`. Adding a widget is a registry + env-var change, not a new app.
+
+## Scripts
+
+```bash
+npm run dev        # next dev --turbopack
+npm run build      # next build --turbopack
+npm run start      # next start
+npm run lint
+npm run typecheck
+```
+
+## License
+
+MIT

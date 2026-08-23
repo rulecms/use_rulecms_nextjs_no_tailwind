@@ -1,0 +1,55 @@
+---
+description: Run builds outside the agent sandbox — bundler builds hang forever inside it
+alwaysApply: true
+---
+
+# Never run a build inside the tool sandbox
+
+Bundler and framework builds hang **indefinitely** in the agent's tool sandbox.
+Always pass `required_permissions: ["all"]` when running one.
+
+```
+# ❌ hangs forever — killed at 16 minutes, no output, dist/ never written
+Shell(command: "npm run build")
+
+# ✅ the same build, 1.6 seconds
+Shell(command: "npm run build", required_permissions: ["all"])
+```
+
+## What this covers
+
+Anything that invokes a bundler, directly or as a step inside another script:
+
+- `npm run build` — rollup, Next.js, vite, tsup
+- `npm run test:bundle`, `npm run release`, `npm run build-storybook`
+- `npx rollup -c`, `npx next build`
+
+## What is fine sandboxed
+
+`npm run test` (vitest), `npm run lint` (eslint), `npm run typecheck` (tsc),
+`git`, `node -e`, file listing. These run at full speed — seconds, not minutes.
+Keep using the sandbox for them.
+
+## Recognising it
+
+The build prints its first line and then nothing at all. `dist/` keeps its old
+timestamps. There is no error, no crash and no timeout — it sits there until
+you kill it, so a long wait never resolves into a useful failure.
+
+Do **not** pipe a build through `tail` or `head`. That buffers every line, so a
+stalled build looks exactly like a running one and you lose the only signal you
+had. Let build output stream.
+
+## Measured in source-components-react, August 2026
+
+| | Sandboxed | `required_permissions: ["all"]` |
+|---|---|---|
+| `npm run build` | killed at 16 min, stalled right after `index.ts → dist/index.cjs...` | 1.6 s, all four bundles |
+
+Reproduced deliberately a second time with `npx rollup -c`: still frozen at that
+same line after 4m45s, then killed. It does not eventually recover.
+
+It is **not** `worker_threads` — a worker spawns in 12 ms sandboxed. The cause
+is unidentified, so treat every build as affected rather than guessing which
+bundler is safe. Asking for `["all"]` costs nothing; guessing wrong costs the
+session.
