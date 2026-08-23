@@ -13,15 +13,10 @@ export interface GalleryWidget {
   /** Short purpose shown on the widget pages. */
   description: string;
   /**
-   * Client published-key env var (`NEXT_PUBLIC_…`).
-   * Read on the server and passed into the client widget as a prop so Next.js
-   * does not need a static `process.env.NEXT_PUBLIC_…` reference per widget.
+   * Env var for this widget’s published key. Read on the server and passed
+   * into client widgets as a prop.
    */
-  publishedKeyPublicEnv: string;
-  /**
-   * Optional server-only published-key env var. Falls back to the public one.
-   */
-  publishedKeyServerEnv: string;
+  publishedKeyEnv: string;
 }
 
 export const galleryWidgets: GalleryWidget[] = [
@@ -30,8 +25,7 @@ export const galleryWidgets: GalleryWidget[] = [
     label: 'Widget 1',
     description:
       'First gallery widget. Layout, CSS variables, and Tailwind utility classes are defined and compiled on the RuleCMS side. This Next.js host has no Tailwind configuration.',
-    publishedKeyPublicEnv: 'NEXT_PUBLIC_RULECMS_WIDGET_1_PUBLISHED_KEY',
-    publishedKeyServerEnv: 'RULECMS_WIDGET_1_PUBLISHED_KEY',
+    publishedKeyEnv: 'RULECMS_WIDGET_1_PUBLISHED_KEY',
   },
 ];
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Sidebar } from '@/components/Sidebar';
+import { getRuleCMSEndpoint, getRuleCMSToken } from '@/lib/rulecms-config';
 import { RuleCMSProvider } from './providers';
 import './globals.css';
 
@@ -28,10 +29,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const token = getRuleCMSToken();
+  const endpoint = getRuleCMSEndpoint();
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <RuleCMSProvider>
+        <RuleCMSProvider token={token} endpoint={endpoint}>
           <div className="gallery-shell">
             <Sidebar />
             <main className="gallery-main">{children}</main>

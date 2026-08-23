@@ -1,17 +1,10 @@
 import type { GalleryWidget } from '@/lib/gallery-widgets';
 
-type CredentialMode = 'csr' | 'ssr';
-
 interface MissingCredentialsProps {
   widget: GalleryWidget;
-  mode: CredentialMode;
 }
 
-export function MissingCredentials({ widget, mode }: MissingCredentialsProps) {
-  const tokenEnv = mode === 'ssr' ? 'RULECMS_TOKEN' : 'NEXT_PUBLIC_RULECMS_TOKEN';
-  const keyEnv =
-    mode === 'ssr' ? widget.publishedKeyServerEnv : widget.publishedKeyPublicEnv;
-
+export function MissingCredentials({ widget }: MissingCredentialsProps) {
   return (
     <div className="gallery-callout gallery-callout-warning">
       <h2>Credentials are not configured</h2>
@@ -21,10 +14,10 @@ export function MissingCredentials({ widget, mode }: MissingCredentialsProps) {
       </p>
       <ul>
         <li>
-          <code>{tokenEnv}</code>
+          <code>RULECMS_TOKEN</code>
         </li>
         <li>
-          <code>{keyEnv}</code>
+          <code>{widget.publishedKeyEnv}</code>
         </li>
       </ul>
       <p>

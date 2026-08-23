@@ -39,11 +39,9 @@ This repository does **not** commit tokens or published keys. Copy `.env.example
 
 | Name | Used by |
 | --- | --- |
-| `NEXT_PUBLIC_RULECMS_TOKEN` | Client-side pages (`/widgets/widget-1`) |
-| `RULECMS_TOKEN` | Server pre-fetched pages (`/widgets/widget-1/ssr`) — never expose this to the browser |
-| `NEXT_PUBLIC_RULECMS_ENDPOINT` / `RULECMS_ENDPOINT` | Optional; default `https://rulecms.com` |
-| `NEXT_PUBLIC_RULECMS_WIDGET_1_PUBLISHED_KEY` | Widget 1 published key |
-| `RULECMS_WIDGET_1_PUBLISHED_KEY` | Optional server override; falls back to the public key |
+| `RULECMS_TOKEN` | The one RuleCMS app token. Used for client-side and server pre-fetched pages. |
+| `RULECMS_ENDPOINT` | Optional; default `https://rulecms.com` |
+| `RULECMS_WIDGET_1_PUBLISHED_KEY` | Widget 1 published key |
 
 Get an **app token** from RuleCMS project settings and a **published key** by publishing a widget in the composer (`{environmentId}---widget-…`).
 

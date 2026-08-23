@@ -4,10 +4,7 @@ import { MissingCredentials } from '@/components/MissingCredentials';
 import { RuleCMSWidgetClient } from '@/components/RuleCMSWidgetClient';
 import { WidgetPageHeader } from '@/components/WidgetPageHeader';
 import { galleryWidgets, getWidgetBySlug } from '@/lib/gallery-widgets';
-import {
-  getClientPublishedKey,
-  isClientConfigured,
-} from '@/lib/rulecms-config';
+import { getPublishedKey, isWidgetConfigured } from '@/lib/rulecms-config';
 
 export const dynamicParams = false;
 
@@ -37,8 +34,8 @@ export default async function WidgetCsrPage({ params }: WidgetPageProps) {
     notFound();
   }
 
-  const configured = isClientConfigured(widget);
-  const publishedKey = getClientPublishedKey(widget);
+  const configured = isWidgetConfigured(widget);
+  const publishedKey = getPublishedKey(widget);
 
   return (
     <article className="gallery-page gallery-page-wide">
@@ -48,7 +45,7 @@ export default async function WidgetCsrPage({ params }: WidgetPageProps) {
           <RuleCMSWidgetClient publishedKey={publishedKey} />
         </div>
       ) : (
-        <MissingCredentials widget={widget} mode="csr" />
+        <MissingCredentials widget={widget} />
       )}
     </article>
   );

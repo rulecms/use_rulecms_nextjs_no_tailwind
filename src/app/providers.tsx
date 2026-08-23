@@ -2,26 +2,26 @@
 
 import { ReactNode } from 'react';
 import { RuleCMSWidgetProvider } from '@rulecms/widget-react';
-import { DEFAULT_RULECMS_ENDPOINT } from '@/lib/rulecms-config';
 import { rulecmsLibraries } from '@/lib/rulecms-libraries';
 
 interface RuleCMSProviderProps {
+  token: string;
+  endpoint: string;
   children: ReactNode;
 }
 
 /**
- * Token and endpoint must be static `process.env.NEXT_PUBLIC_*` references.
- * Next.js only inlines those on the client; `process.env[name]` is empty in
- * the browser bundle.
+ * Token and endpoint are read on the server from `RULECMS_TOKEN` /
+ * `RULECMS_ENDPOINT` and passed in. There is no Next.js-prefixed token.
  */
-export function RuleCMSProvider({ children }: RuleCMSProviderProps) {
-  const appToken = process.env.NEXT_PUBLIC_RULECMS_TOKEN ?? '';
-  const endpoint =
-    process.env.NEXT_PUBLIC_RULECMS_ENDPOINT || DEFAULT_RULECMS_ENDPOINT;
-
+export function RuleCMSProvider({
+  token,
+  endpoint,
+  children,
+}: RuleCMSProviderProps) {
   return (
     <RuleCMSWidgetProvider
-      token={appToken}
+      token={token}
       endpoint={endpoint}
       libraries={rulecmsLibraries}
     >

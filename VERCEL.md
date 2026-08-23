@@ -20,16 +20,13 @@ Before the first production deploy, add the variables from `.env.example`. In th
 
 | Name | Required for | Notes |
 | --- | --- | --- |
-| `NEXT_PUBLIC_RULECMS_TOKEN` | Client-side widget pages | Exposed to the browser. Required for `/widgets/widget-1` (CSR). |
-| `RULECMS_TOKEN` | Server pre-fetched pages | Server-only. Required for `/widgets/widget-1/ssr`. Do **not** prefix with `NEXT_PUBLIC_`. |
-| `NEXT_PUBLIC_RULECMS_ENDPOINT` | Optional | Defaults to `https://rulecms.com`. |
+| `RULECMS_TOKEN` | All widget pages | The RuleCMS app token. One variable; used for client-side and server pre-fetched fetches. |
 | `RULECMS_ENDPOINT` | Optional | Defaults to `https://rulecms.com`. |
-| `NEXT_PUBLIC_RULECMS_WIDGET_1_PUBLISHED_KEY` | Widget 1 CSR | Published key from RuleCMS (`{environmentId}---widget-…`). |
-| `RULECMS_WIDGET_1_PUBLISHED_KEY` | Widget 1 SSR | Optional; falls back to the `NEXT_PUBLIC_…` key. |
+| `RULECMS_WIDGET_1_PUBLISHED_KEY` | Widget 1 | Published key from RuleCMS (`{environmentId}---widget-…`). |
 
-When you add another gallery widget, add the matching `*_WIDGET_<N>_PUBLISHED_KEY` names (see `__docs__/RUNBOOK_add-gallery-widget.md`) here as well.
+When you add another gallery widget, add `RULECMS_WIDGET_<N>_PUBLISHED_KEY` (see `__docs__/RUNBOOK_add-gallery-widget.md`).
 
-`NEXT_PUBLIC_*` values are inlined at **build** time. After you change them, trigger a new deployment.
+After you change env vars, trigger a new deployment so the server layout picks them up.
 
 ## 4. Deploy
 
@@ -38,8 +35,8 @@ Click **Deploy**. The production URL is shown when the build finishes. Later pus
 ### What you should see
 
 - `/` — gallery homepage and left sidebar (plain CSS, no Tailwind on the host).
-- `/widgets/widget-1` — client-side RuleCMS widget, once the client token and published key are set.
-- `/widgets/widget-1/ssr` — server pre-fetched widget, once `RULECMS_TOKEN` and the published key are set.
+- `/widgets/widget-1` — client-side RuleCMS widget, once `RULECMS_TOKEN` and the published key are set.
+- `/widgets/widget-1/ssr` — server pre-fetched widget, same two variables.
 
 If credentials are missing, those widget pages show a configuration message instead of failing the build.
 
@@ -47,7 +44,7 @@ If credentials are missing, those widget pages show a configuration message inst
 
 ```bash
 cp .env.example .env.local
-# fill in tokens and published keys
+# fill in RULECMS_TOKEN and published keys
 npm install
 npm run dev
 ```
@@ -56,7 +53,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Troubleshooting
 
-- **Widget pages say credentials are not configured** — the env vars are missing, misspelled, or you changed `NEXT_PUBLIC_*` without redeploying.
+- **Widget pages say credentials are not configured** — `RULECMS_TOKEN` or the widget published-key var is missing or misspelled. Redeploy after changing them on the host.
 - **SSR page shows a fetch error** — the published key, `RULECMS_TOKEN`, or endpoint is wrong, or the widget is unpublished.
 - **GitHub repo does not appear in Vercel** — the Vercel GitHub app is not installed on that account or organization, or it is not granted access to this repository.
 - **Build fails on Tailwind / PostCSS** — this app must not gain a Tailwind dependency. Host chrome uses `src/app/globals.css` only.

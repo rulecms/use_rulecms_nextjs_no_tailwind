@@ -4,9 +4,9 @@ import {
 } from '@rulecms/widget-react/server';
 import type { GalleryWidget } from './gallery-widgets';
 import {
+  getPublishedKey,
   getRuleCMSEndpoint,
-  getServerPublishedKey,
-  getServerToken,
+  getRuleCMSToken,
 } from './rulecms-config';
 
 interface FetchWidgetOptions {
@@ -30,8 +30,8 @@ export async function fetchGalleryWidget(
   }
 
   return fetchRuleCMSWidget({
-    publishedKey: getServerPublishedKey(widget),
-    token: getServerToken(),
+    publishedKey: getPublishedKey(widget),
+    token: getRuleCMSToken(),
     endpoint: getRuleCMSEndpoint(),
     fetchOptions,
   });

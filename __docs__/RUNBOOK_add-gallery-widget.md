@@ -21,6 +21,7 @@ Do not create a new Next.js app. This repo is the gallery.
 ## Non-negotiables
 
 - Tokens stay in environment variables. Never put real tokens or published keys in git.
+- There is **one** app token: `RULECMS_TOKEN`. Do not add `NEXT_PUBLIC_RULECMS_TOKEN` or any second token name unless the user says the widget lives in a different RuleCMS project.
 - Do not add Tailwind, PostCSS Tailwind plugins, or host-side utility CSS that copies Tailwind.
 - Widget CSS, CSS variables, and Tailwind class resolution stay on the RuleCMS side.
 - Routes are generated from `src/lib/gallery-widgets.ts`. You should not need a new `page.tsx` per widget.
@@ -35,8 +36,6 @@ Ask if missing:
 - Sidebar label (default `Widget N` where N is the next integer)
 - Optional short description
 
-App token is already `NEXT_PUBLIC_RULECMS_TOKEN` / `RULECMS_TOKEN`. Do not add a second token unless the user says the widget lives in a different RuleCMS project.
-
 ### 2. Append the registry
 
 Edit `src/lib/gallery-widgets.ts`. Copy the `widget-1` object. Example for widget 2:
@@ -47,8 +46,7 @@ Edit `src/lib/gallery-widgets.ts`. Copy the `widget-1` object. Example for widge
   label: 'Widget 2',
   description:
     'Second gallery widget. CSS and Tailwind utilities are compiled on the RuleCMS side.',
-  publishedKeyPublicEnv: 'NEXT_PUBLIC_RULECMS_WIDGET_2_PUBLISHED_KEY',
-  publishedKeyServerEnv: 'RULECMS_WIDGET_2_PUBLISHED_KEY',
+  publishedKeyEnv: 'RULECMS_WIDGET_2_PUBLISHED_KEY',
 },
 ```
 
@@ -61,13 +59,12 @@ The sidebar (`src/components/Sidebar.tsx`) and both routes under `src/app/widget
 `.env.example`:
 
 ```
-NEXT_PUBLIC_RULECMS_WIDGET_2_PUBLISHED_KEY=
 RULECMS_WIDGET_2_PUBLISHED_KEY=
 ```
 
-`VERCEL.md`: add those names to the environment-variable table.
+`VERCEL.md`: add that name to the environment-variable table.
 
-Tell the user to set the same names in `.env.local` and in Vercel **Settings → Environment Variables**, then redeploy (required for `NEXT_PUBLIC_*`).
+Tell the user to set it in `.env.local` and in Vercel **Settings → Environment Variables**, then redeploy.
 
 ### 4. Do not write the published key into source
 
@@ -96,6 +93,7 @@ If a browser is available and `.env.local` is filled in, open both routes and co
 - Do not install `tailwindcss` or `@tailwindcss/postcss`.
 - Do not copy `use_rulecms_nextjs` host Tailwind styles into this app.
 - Do not add demo tokens as source fallbacks (unlike some other public examples).
+- Do not introduce `NEXT_PUBLIC_RULECMS_TOKEN` or a second token env var.
 - Do not mention a specific Vercel team, Hobby plan, or internal account in user-facing docs.
 
 ## Files you will usually touch
@@ -103,7 +101,7 @@ If a browser is available and `.env.local` is filled in, open both routes and co
 | File | Change |
 | --- | --- |
 | `src/lib/gallery-widgets.ts` | New registry entry |
-| `.env.example` | Blank published-key vars |
-| `VERCEL.md` | Document those vars |
+| `.env.example` | Blank published-key var |
+| `VERCEL.md` | Document that var |
 
 You should **not** need to edit `src/app/widgets/[slug]/page.tsx` or `ssr/page.tsx` unless the embed API itself changed.

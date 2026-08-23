@@ -6,10 +6,7 @@ import { RuleCMSWidgetPreFetched } from '@/components/RuleCMSWidgetPreFetched';
 import { WidgetPageHeader } from '@/components/WidgetPageHeader';
 import { fetchGalleryWidget } from '@/lib/fetch-widget';
 import { getWidgetBySlug } from '@/lib/gallery-widgets';
-import {
-  getServerPublishedKey,
-  isServerConfigured,
-} from '@/lib/rulecms-config';
+import { getPublishedKey, isWidgetConfigured } from '@/lib/rulecms-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -37,16 +34,16 @@ export default async function WidgetSsrPage({ params }: WidgetSsrPageProps) {
     notFound();
   }
 
-  if (!isServerConfigured(widget)) {
+  if (!isWidgetConfigured(widget)) {
     return (
       <article className="gallery-page gallery-page-wide">
         <WidgetPageHeader widget={widget} mode="ssr" />
-        <MissingCredentials widget={widget} mode="ssr" />
+        <MissingCredentials widget={widget} />
       </article>
     );
   }
 
-  const publishedKey = getServerPublishedKey(widget);
+  const publishedKey = getPublishedKey(widget);
   let fetchError: string | null = null;
   let widgetData = null;
 
