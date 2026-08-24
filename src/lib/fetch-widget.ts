@@ -3,11 +3,7 @@ import {
   type RuleCMSWidgetData,
 } from '@rulecms/widget-react/server';
 import type { GalleryWidget } from './gallery-widgets';
-import {
-  getPublishedKey,
-  getRuleCMSEndpoint,
-  getRuleCMSToken,
-} from './rulecms-config';
+import { getPublishedKey, getRuleCMSToken } from './rulecms-config';
 
 interface FetchWidgetOptions {
   revalidateSeconds?: number;
@@ -32,7 +28,6 @@ export async function fetchGalleryWidget(
   return fetchRuleCMSWidget({
     publishedKey: getPublishedKey(widget),
     token: getRuleCMSToken(),
-    endpoint: getRuleCMSEndpoint(),
     fetchOptions,
   });
 }

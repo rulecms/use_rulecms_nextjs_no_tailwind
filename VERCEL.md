@@ -21,7 +21,6 @@ Before the first production deploy, add the variables from `.env.example`. In th
 | Name | Required for | Notes |
 | --- | --- | --- |
 | `RULECMS_TOKEN` | All widget pages | The RuleCMS app token. One variable; used for client-side and server pre-fetched fetches. |
-| `RULECMS_ENDPOINT` | Optional | Defaults to `https://rulecms.com`. |
 | `RULECMS_WIDGET_1_PUBLISHED_KEY` | Widget 1 | Published key from RuleCMS (`{environmentId}---widget-…`). |
 
 When you add another gallery widget, add `RULECMS_WIDGET_<N>_PUBLISHED_KEY` (see `__docs__/RUNBOOK_add-gallery-widget.md`).
@@ -54,6 +53,6 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Troubleshooting
 
 - **Widget pages say credentials are not configured** — `RULECMS_TOKEN` or the widget published-key var is missing or misspelled. Redeploy after changing them on the host.
-- **SSR page shows a fetch error** — the published key, `RULECMS_TOKEN`, or endpoint is wrong, or the widget is unpublished.
+- **SSR page shows a fetch error** — the published key or `RULECMS_TOKEN` is wrong, or the widget is unpublished.
 - **GitHub repo does not appear in Vercel** — the Vercel GitHub app is not installed on that account or organization, or it is not granted access to this repository.
 - **Build fails on Tailwind / PostCSS** — this app must not gain a Tailwind dependency. Host chrome uses `src/app/globals.css` only.

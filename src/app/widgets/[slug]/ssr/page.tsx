@@ -64,7 +64,7 @@ export default async function WidgetSsrPage({ params }: WidgetSsrPageProps) {
           <h2>Could not load this widget</h2>
           <p>
             The server fetch using <code>fetchRuleCMSWidget</code> failed. Check
-            the published key, <code>RULECMS_TOKEN</code>, and endpoint.
+            the published key and <code>RULECMS_TOKEN</code>.
           </p>
           {fetchError ? <p>{fetchError}</p> : null}
         </div>
