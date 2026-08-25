@@ -22,6 +22,7 @@ Before the first production deploy, add the variables from `.env.example`. In th
 | --- | --- | --- |
 | `RULECMS_TOKEN` | All widget pages | The RuleCMS app token. One variable; used for client-side and server pre-fetched fetches. |
 | `RULECMS_WIDGET_1_PUBLISHED_KEY` | Widget 1 | Published key from RuleCMS (`{environmentId}---widget-…`). |
+| `RULECMS_WIDGET_2_PUBLISHED_KEY` | Widget 2 | Published key from RuleCMS (`{environmentId}---widget-…`). |
 
 When you add another gallery widget, add `RULECMS_WIDGET_<N>_PUBLISHED_KEY` (see `__docs__/RUNBOOK_add-gallery-widget.md`).
 
@@ -36,6 +37,7 @@ Click **Deploy**. The production URL is shown when the build finishes. Later pus
 - `/` — gallery homepage and left sidebar (plain CSS, no Tailwind on the host).
 - `/widgets/widget-1` — client-side RuleCMS widget, once `RULECMS_TOKEN` and the published key are set.
 - `/widgets/widget-1/ssr` — server pre-fetched widget, same two variables.
+- `/widgets/widget-2` — same pair of routes for Widget 2.
 
 If credentials are missing, those widget pages show a configuration message instead of failing the build.
 

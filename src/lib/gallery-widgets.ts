@@ -27,6 +27,13 @@ export const galleryWidgets: GalleryWidget[] = [
       'First gallery widget. Layout, CSS variables, and Tailwind utility classes are defined and compiled on the RuleCMS side. This Next.js host has no Tailwind configuration.',
     publishedKeyEnv: 'RULECMS_WIDGET_1_PUBLISHED_KEY',
   },
+  {
+    slug: 'widget-2',
+    label: 'Widget 2',
+    description:
+      'Stock Tailwind text block. Layout, CSS variables, and utility classes are compiled on the RuleCMS side. This Next.js host has no Tailwind configuration.',
+    publishedKeyEnv: 'RULECMS_WIDGET_2_PUBLISHED_KEY',
+  },
 ];
 
 export function getWidgetBySlug(slug: string): GalleryWidget | undefined {

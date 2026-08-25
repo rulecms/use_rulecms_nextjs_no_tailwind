@@ -41,6 +41,7 @@ This repository does **not** commit tokens or published keys. Copy `.env.example
 | --- | --- |
 | `RULECMS_TOKEN` | The one RuleCMS app token. Used for client-side and server pre-fetched pages. |
 | `RULECMS_WIDGET_1_PUBLISHED_KEY` | Widget 1 published key |
+| `RULECMS_WIDGET_2_PUBLISHED_KEY` | Widget 2 published key |
 
 Get an **app token** from RuleCMS project settings and a **published key** by publishing a widget in the composer (`{environmentId}---widget-…`).
 
@@ -51,6 +52,8 @@ Get an **app token** from RuleCMS project settings and a **published key** by pu
 | `/` | Purpose of this gallery; how to use the sidebar |
 | `/widgets/widget-1` | Widget 1, client-side `RuleCMSWidget` |
 | `/widgets/widget-1/ssr` | Widget 1, `fetchRuleCMSWidget` on the server then `mode="pre-fetched"` |
+| `/widgets/widget-2` | Widget 2, client-side |
+| `/widgets/widget-2/ssr` | Widget 2, server pre-fetched |
 
 ## How embedding works
 
